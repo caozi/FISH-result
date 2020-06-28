@@ -4,11 +4,12 @@ from wechatpy import parse_message, create_reply
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import WeChatClient
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 from .models import Patient
 from .weixin_config import TOKEN, appID, appsecret
 
 client = WeChatClient(appID, appsecret)
+
 
 @csrf_exempt
 def index(request):
@@ -51,8 +52,13 @@ def create_menu(request):
     return HttpResponse('ok')
 
 
-@csrf_exempt
 def query_form(request):
+    return render_to_response('weixin/query_form.html')
+
+
+
+@csrf_exempt
+def query_result(request):
     if request.method == 'POST':
         p_name = request.POST.get('patient_name', '')
         p_number = request.POST.get('patient_number', '')
