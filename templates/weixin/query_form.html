@@ -43,75 +43,9 @@
                     </div>
                 </div>
             </div>
-            <!--BEGIN warn toast-->
-            <div id="toast" style="display: none;">
-                <div class="weui-mask_transparent"></div>
-                <div class="weui-toast">
-                    <i class="weui-icon-success-no-circle weui-icon_toast"></i>
-                    <p class="weui-toast__content" id="warn_tip"></p>
-                </div>
-            </div>
-            <!--end warn toast-->
-            <!-- loading toast -->
-            <div id="loadingToast" style="display: none;">
-                <div class="weui-mask_transparent"></div>
-                <div class="weui-toast">
-                    <i class="weui-loading weui-icon_toast"></i>
-                    <p class="weui-toast__content" id="loading_tip"></p>
-                </div>
-            </div>
-            <!--end toast-->
         </form>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
-        <script type="text/javascript">
-            $(function(){
-                var $warn_tip = $('#warn_tip');
-                var $toast = $('#toast');
-                var $patient_name = $('#patient_name');
-                var $register = $('#register');
-                var $loadingToast = $('#loadingToast');
-                var $patient_phone = $('#patient_phone');
-                var $notify = $('#notify');
-                var $loading_tip = $('#loading_tip');
-
-                $register.on('click', function(){
-                        $loading_tip.text('登记中')
-                        $loadingToast.show();
-                         $.ajax({
-                                url: '/weixin/register_FISH/',
-                                data: {
-                                    'patient_name' : $patient_name.val(),
-                                    'patient_openID' : $('#patient_openID').val(),
-                                    'patient_phone' : $patient_phone.val(),
-                                },
-                            dataType: 'json',
-                            success: function (data) {
-                                if ((data.notify)) {
-                                    $warn_tip.text("登记成功");
-                                    $toast.fadeIn(100);
-                                    setTimeout(function () {
-                                        $toast.fadeOut(100);
-                                    }, 2000);
-                                    $notify.val("success");
-                                }else{
-                                    $warn_tip.text("登记失败");
-                                    $toast.fadeIn(100);
-                                    setTimeout(function () {
-                                        $toast.fadeOut(100);
-                                    }, 2000);
-                                    $notify.val("failure");
-                                }
-                            },
-                            complete: function(){
-                                $loadingToast.hide();
-                                $('#form')[0].submit(true);
-                            }
-                        });
-
-                });
-            });
-      </script>
 </html>
 
 
