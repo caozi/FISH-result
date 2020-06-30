@@ -60,10 +60,9 @@ def query_form(request):
 @csrf_exempt
 def query_result(request):
     if request.method == 'POST':
-        p_name = request.POST.get('patient_name', '')
         p_number = request.POST.get('patient_number', '')
         try:
-            p = Patient.objects.get(patient_id=p_number)
+            p = Patient.objects.get(patient_hospital_number=p_number)
             return render(request, 'weixin/query_result.html', {'patient': p})
         except Patient.DoesNotExist:
             return render_to_response('weixin/query_error.html')
