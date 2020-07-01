@@ -1,16 +1,16 @@
-from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from wechatpy import parse_message, create_reply
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt
-from .models import Patient
 from .weixin_config import TOKEN, appID, appsecret
-from .patients_data import data
+import json
 
 client = WeChatClient(appID, appsecret)
 
+with open('patients_data.json','r') as f:
+    data = json.load(f)
 
 @csrf_exempt
 def index(request):
