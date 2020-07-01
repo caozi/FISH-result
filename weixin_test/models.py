@@ -16,7 +16,7 @@ class TestItem(models.Model):
 
 
 class Test(models.Model):
-    test_name = models.ForeignKey(TestItem, unique=True)
+    test_name = models.ForeignKey(TestItem, unique=True, on_delete=models.CASCADE)
     test_result = models.ForeignKey(Result, on_delete=models.CASCADE)
 
     def __str__(self):
