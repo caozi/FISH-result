@@ -7,6 +7,7 @@ from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt
 from .models import Patient
 from .weixin_config import TOKEN, appID, appsecret
+from .patients_data import data
 
 client = WeChatClient(appID, appsecret)
 
@@ -38,16 +39,9 @@ def index(request):
 
 
 def query_result(patient_hospital_number):
-    reply_string = '姓名:{0}\n住院号:{1}\n病理号{2}\n,FISH结果：{3}'
     try:
-        p = Patient.objects.get(patient_hospital_number=patient_hospital_number)
-        return reply_string.format(p.patient_name,
-                                   p.patient_hospital_number,
-                                   p.patient_pathology_number,
-                                   p.patient_test_1.test_name+" : "+p.patient_test_1.test_result+"\n"+
-                                   p.patient_test_2.test_name+" : "+p.patient_test_2.test_result+"\n"+
-                                   p.patient_test_2.test_name+" : "+p.patient_test_2.test_result)
-    except Patient.DoesNotExist:
+        return data[patient_hospital_number]
+    except:
         return "没有该住院号信息，请检查住院号是否正确"
 
 
