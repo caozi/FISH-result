@@ -28,45 +28,27 @@ def index(request):
         reply = None
         msg = parse_message(request.body)
         if msg.type == 'text':
-            reply = create_reply('感谢关注天津市肿瘤医院病理科FISH检测公众号，点击查询，填写病人信息，查询FISH结果', msg)
+            reply = create_reply(query_result(msg.content), msg)
         elif msg.event == 'subscribe':
-            reply = create_reply('感谢关注天津市肿瘤医院病理科FISH检测公众号，点击查询，填写病人信息，查询FISH结果', msg)
+            reply = create_reply('感谢关注天津市肿瘤医院病理科FISH检测公众号，输入住院号，查询FISH结果', msg)
         response = HttpResponse(reply.render(), content_type='application/xml')
         return response
     else:
         return HttpResponse('ERROR')
 
 
-# 创建菜单
-def create_menu(request):
-    client.menu.create({
-        "button": [
-            {
-                "type": "view",
-                "name": "查询",
-                "url": "http://georgecaozi.pythonanywhere.com/weixin/query_form"
-            },
-        ]
-    }
-    )
-    return HttpResponse('ok')
-
-
-def query_form(request):
-    return render_to_response('weixin/query_form.html')
-
-
-
-@csrf_exempt
-def query_result(request):
-    if request.method == 'POST':
-        p_number = request.POST.get('patient_number', '')
-        try:
-            p = Patient.objects.get(patient_hospital_number=p_number)
-            return render(request, 'weixin/query_result.html', {'patient': p})
-        except Patient.DoesNotExist:
-            return render_to_response('weixin/query_error.html')
-    return HttpResponse('Data not received', content_type="text/plain")
+def query_result(patient_hospital_number):
+    reply_string = '姓名:{0}\n住院号:{1}\n病理号{2}\n,FISH结果：{3}'
+    try:
+        p = Patient.objects.get(patient_hospital_number=patient_hospital_number)
+        return reply_string.format(p.patient_name,
+                                   p.patient_hospital_number,
+                                   p.patient_pathology_number,
+                                   p.patient_test_1.test_name+" : "+p.patient_test_1.test_result+"\n"+
+                                   p.patient_test_2.test_name+" : "+p.patient_test_2.test_result+"\n"+
+                                   p.patient_test_2.test_name+" : "+p.patient_test_2.test_result)
+    except Patient.DoesNotExist:
+        return "没有该住院号信息，请检查住院号是否正确"
 
 
 
