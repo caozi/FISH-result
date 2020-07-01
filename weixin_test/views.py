@@ -9,7 +9,7 @@ import json
 
 client = WeChatClient(appID, appsecret)
 
-with open('patients_data.json','r') as f:
+with open('patients_data.json', 'r') as f:
     data = json.load(f)
 
 @csrf_exempt
@@ -38,9 +38,9 @@ def index(request):
         return HttpResponse('ERROR')
 
 
-def query_result(patient_hospital_number):
+def query_result(patient_name):
     try:
-        return data[patient_hospital_number]
+        return data[patient_name]
     except:
         return "没有该住院号信息，请检查住院号是否正确"
 
