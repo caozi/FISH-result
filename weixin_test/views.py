@@ -9,7 +9,7 @@ import json
 
 client = WeChatClient(appID, appsecret)
 
-with open('patients_data.json', 'r') as f:
+with open('weixin_test/patients_data.json', 'r') as f:
     data = json.load(f)
 
 @csrf_exempt
