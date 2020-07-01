@@ -31,7 +31,7 @@ def index(request):
         if msg.type == 'text':
             reply = create_reply(query_result(msg.content), msg)
         elif msg.event == 'subscribe':
-            reply = create_reply('感谢关注天津市肿瘤医院病理科FISH检测公众号，输入住院号，查询FISH结果', msg)
+            reply = create_reply('感谢关注天津市肿瘤医院病理科FISH检测公众号，输入姓名，查询FISH结果', msg)
         response = HttpResponse(reply.render(), content_type='application/xml')
         return response
     else:
@@ -42,7 +42,7 @@ def query_result(patient_name):
     try:
         return data[patient_name]
     except:
-        return "没有该住院号信息，请检查住院号是否正确"
+        return "没有该姓名信息，请检查姓名是否正确"
 
 
 
