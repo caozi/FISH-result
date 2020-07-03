@@ -12,6 +12,9 @@ client = WeChatClient(appID, appsecret)
 with open('weixin_test/patients_data.json', 'r') as f:
     data = json.load(f)
 
+with open('weixin_test/prices.json', 'r') as f:
+    prices = json.load(f)
+
 @csrf_exempt
 def index(request):
     if request.method == 'GET':
@@ -29,7 +32,10 @@ def index(request):
         reply = None
         msg = parse_message(request.body)
         if msg.type == 'text':
-            reply = create_reply(query_result(msg.content), msg)
+            if msg.content == '探针价格':
+                reply = create_reply(price_result(), msg)
+            else:
+                reply = create_reply(query_result(msg.content), msg)
         elif msg.event == 'subscribe':
             reply = create_reply('感谢关注天津市肿瘤医院病理科FISH检测公众号，输入姓名，查询FISH结果', msg)
         response = HttpResponse(reply.render(), content_type='application/xml')
@@ -43,6 +49,17 @@ def query_result(patient_name):
         return data[patient_name]
     except:
         return "没有该姓名信息，请检查姓名是否正确"
+
+
+def price_result():
+    result = ''
+    for name in prices:
+        result += name
+        result += ':'
+        result += prices[name]
+        result += '\n'
+    return  result
+
 
 
 
