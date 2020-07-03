@@ -57,7 +57,7 @@ def price_result():
         result += name
         result += ':'
         result += prices[name]
-        result += '\n'
+        result += '\n\n'
     return  result
 
 
