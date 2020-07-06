@@ -37,7 +37,7 @@ def index(request):
             else:
                 reply = create_reply(query_result(msg.content), msg)
         elif msg.event == 'subscribe':
-            reply = create_reply('感谢关注天津市肿瘤医院病理科FISH检测公众号。\n点击https://jinshuju.net/f/iuoJBo登记患者信息。也可以咨询FISH检测相关问题，我们会在第一时间回复您。02223340123是病理科电话，请不要屏蔽。感谢您对我们工作的支持！', msg)
+            reply = create_reply('感谢关注天津市肿瘤医院病理科FISH检测公众号。点击\nhttps://jinshuju.net/f/iuoJBo登记患者信息。\n\n也可以咨询FISH检测相关问题，我们会在第一时间回复您。\n\n02223340123是病理科电话，请不要屏蔽。\n\n感谢您对我们工作的支持！', msg)
         response = HttpResponse(reply.render(), content_type='application/xml')
         return response
     else:
