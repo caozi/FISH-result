@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import datetime
 
 def update():
     df = pd.read_excel("Book1.xls")
@@ -14,8 +15,10 @@ def update():
         test_item = df.iloc[i]['探针名称']
         if df.iloc[i]['结果'] == 0:
             test_result = '(-)\n'
-        else:
+        elif df.iloc[i]['结果'] == 1:
             test_result = '(+)\n'
+        else:
+            test_result = '正在处理，预计' + (datetime.datetime.now()+datetime.timedelta(days=1)).strftime("%Y年%m月%d日") + '出结果'
 
         if not name in update_data:
             if hospital_number.startswith('H'):
