@@ -48,7 +48,7 @@ def query_result(patient_name):
     try:
         return data[patient_name]
     except:
-        return "没有该姓名信息，请检查姓名是否正确"
+        return "没有该姓名信息，请检查姓名是否正确,如姓名无误，则等待数据更新后再次查询"
 
 
 def price_result():
